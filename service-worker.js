@@ -31,7 +31,6 @@ const cacheItems = [
 'js/l10n.js',
 'js/main.js',
 'js/models.js',
-'js/topics.js',
 'js/categories.js',
 'js/vendor/backbone-1.3.3-min.js',
 'js/vendor/backbone.localStorage.js',

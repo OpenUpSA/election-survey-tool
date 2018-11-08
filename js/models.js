@@ -115,25 +115,26 @@ var Story = Backbone.Model.extend({
     return this.get('answers').filter(function(a) { return a.get('done'); });
   },
 
-  shareableBody: function() {
-    var topic = PocketReporter.topics.get(this.get('topic')),
-        answers = _.indexBy(this.get('answers').toJSON(), 'key'),
-        questions;
-
-    questions = _.map(topic.get('questions'), function(q) {
-      var answer = answers[q.key] || {};
-      var s = q.num + "/" + topic.get('length') + ": " + q.question + ':',
-          notes = answer.notes;
-
-      if (notes) {
-        s += "\n\n" + notes;
-      }
-
-      return s;
-    });
-
-    return questions.join('\n---\n\n');
-  },
+  //Note: Riaan Snyders Nov 2018 : Commented out - possible hook to WordPress Questions
+  // shareableBody: function() {
+  //   var topic = PocketReporter.topics.get(this.get('topic')),
+  //       answers = _.indexBy(this.get('answers').toJSON(), 'key'),
+  //       questions;
+  //
+  //   questions = _.map(topic.get('questions'), function(q) {
+  //     var answer = answers[q.key] || {};
+  //     var s = q.num + "/" + topic.get('length') + ": " + q.question + ':',
+  //         notes = answer.notes;
+  //
+  //     if (notes) {
+  //       s += "\n\n" + notes;
+  //     }
+  //
+  //     return s;
+  //   });
+  //
+  //   return questions.join('\n---\n\n');
+  // },
 
   whatsapp: function() {
     var pending = this.pending();
@@ -141,7 +142,7 @@ var Story = Backbone.Model.extend({
     if (pending.length > 0) {
       if (!confirm(PocketReporter.polyglot.t('story.share_incomplete')))
         return;
-    } 
+    }
 
     var url = 'https://api.whatsapp.com/send';
     url += '?text=' + encodeURIComponent(this.shareableBody());
