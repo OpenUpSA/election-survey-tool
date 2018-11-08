@@ -1,0 +1,14 @@
+{
+  "name": "election-survey-tool",
+  "version": "1.0.0",
+  "description": "A simple client-only Javascript app based on [Backbone.js](http://backbonejs.org/).",
+  "main": "service-worker.js",
+  "scripts": {
+    "start": "serve"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "serve": "^10.0.2"
+  }
+}
