@@ -76,14 +76,14 @@ var Router = Backbone.Router.extend({
 
 
 /*** Globals ***/
-var PocketReporter = Backbone.Model.extend({
+var ElectionSurveyTool = Backbone.Model.extend({
   initialize: function() {
     var self = this;
 
     this.gtagOfflineWrapper = new OfflineEventQue('gtagOffline', gtag);
     this.categoriesList = new CategoriesList(CATEGORIES);
     this.topics = new Topics(STORYCHECK_TOPICS);
-    
+
     // storage version
     // NB: changing this will clear all stories when a user next loads the app!
     this.version = 5;
@@ -174,6 +174,7 @@ var PocketReporter = Backbone.Model.extend({
     this.topics.add(this.customTopics.models);
   },
 
+  //Note: Riaan Snyders Nov 2018: Calls for WP questions / templates
   addCustomTemplateFromApi: function(idArray, callback) {
     var remaingRequest = idArray.length;
 
@@ -189,16 +190,16 @@ var PocketReporter = Backbone.Model.extend({
             }
           },
 
-          success: function(response) { 
+          success: function(response) {
             remaingRequest -= 1;
 
             if (response.length < 1 ) {
               return callback && callback('notExist');
             }
 
-            var newTopic = PocketReporter.normaliseWordpressSchema(response[0]);
-            PocketReporter.customTopics.add(newTopic);
-            
+            var newTopic = ElectionSurveyTool.normaliseWordpressSchema(response[0]);
+            ElectionSurveyTool.customTopics.add(newTopic);
+
             if (remaingRequest < 1 && callback) {
               return callback('success');
             }
@@ -214,7 +215,7 @@ var PocketReporter = Backbone.Model.extend({
       icon: 'fa-bookmark',
       id: result.slug,
       name: result.title.rendered,
-      questions: result.acf.questions_list.map(function(item, index) { 
+      questions: result.acf.questions_list.map(function(item, index) {
         return {
           key: index,
           num: index,
@@ -298,8 +299,8 @@ var PocketReporter = Backbone.Model.extend({
   trackEvent: function(action, category, label, value) {
     if ('gtag' in window) {
       this.gtagOfflineWrapper.event(
-        'event', 
-        action, 
+        'event',
+        action,
         {
           'event_category': category,
           'event_label': label,
@@ -313,8 +314,8 @@ var PocketReporter = Backbone.Model.extend({
   trackView: function(view) {
     if ('gtag' in window) {
       this.gtagOfflineWrapper.event(
-        'config', 
-        'UA-48399585-51', 
+        'config',
+        'UA-48399585-51',
         {
           'page_title' : view,
           'page_path': Backbone.history.getFragment(),
@@ -341,11 +342,10 @@ var app = {
     app.eventReceived('deviceready');
   },
   eventReceived: function(id) {
-    PocketReporter = new PocketReporter();
+    PocketReporter = new ElectionSurveyTool();
     router = new Router();
     Backbone.history.start();
   }
 };
 
 app.initialize();
-

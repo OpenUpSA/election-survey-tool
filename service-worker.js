@@ -28,7 +28,6 @@ const cacheItems = [
 'img/openup-logo.svg',
 'index.html',
 'js/helpers.js',
-'js/l10n.js',
 'js/main.js',
 'js/models.js',
 'js/categories.js',

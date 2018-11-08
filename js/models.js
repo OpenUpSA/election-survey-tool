@@ -82,7 +82,7 @@ var Story = Backbone.Model.extend({
 
   setupTopic: function() {
     // clear answers and ensure we have one for every question
-    var topic = PocketReporter.topics.get(this.get('topic'));
+    var topic = ElectionSurveyTool.topics.get(this.get('topic'));
     var answers = _.map(topic.get('questions'), function(q) {
       return new Answer({key: q.key});
     });
@@ -140,7 +140,7 @@ var Story = Backbone.Model.extend({
     var pending = this.pending();
 
     if (pending.length > 0) {
-      if (!confirm(PocketReporter.polyglot.t('story.share_incomplete')))
+      if (!confirm(ElectionSurveyTool.polyglot.t('story.share_incomplete')))
         return;
     }
 
@@ -155,7 +155,7 @@ var Story = Backbone.Model.extend({
     var pending = this.pending();
 
     if (pending.length > 0) {
-      if (!confirm(PocketReporter.polyglot.t('story.share_incomplete')))
+      if (!confirm(ElectionSurveyTool.polyglot.t('story.share_incomplete')))
         return;
     }
 
@@ -166,7 +166,7 @@ var Story = Backbone.Model.extend({
 
     window.open(mailto, '_blank');
 
-    PocketReporter.trackEvent('story', 'share');
+    ElectionSurveyTool.trackEvent('story', 'share');
   }
 });
 
