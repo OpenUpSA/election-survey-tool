@@ -114,28 +114,7 @@ var Story = Backbone.Model.extend({
   completed: function() {
     return this.get('answers').filter(function(a) { return a.get('done'); });
   },
-
-  //Note: Riaan Snyders Nov 2018 : Commented out - possible hook to WordPress Questions
-  // shareableBody: function() {
-  //   var topic = PocketReporter.topics.get(this.get('topic')),
-  //       answers = _.indexBy(this.get('answers').toJSON(), 'key'),
-  //       questions;
-  //
-  //   questions = _.map(topic.get('questions'), function(q) {
-  //     var answer = answers[q.key] || {};
-  //     var s = q.num + "/" + topic.get('length') + ": " + q.question + ':',
-  //         notes = answer.notes;
-  //
-  //     if (notes) {
-  //       s += "\n\n" + notes;
-  //     }
-  //
-  //     return s;
-  //   });
-  //
-  //   return questions.join('\n---\n\n');
-  // },
-
+  
   whatsapp: function() {
     var pending = this.pending();
 
