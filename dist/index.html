@@ -167,11 +167,36 @@
     {{/if}}
   </script>
 
+<!--Note: Riaan Snyders Nov 2018 - Questions Display-->
   <script id="story-question-template" type="text/x-handlebars-template">
     <i class="fa fa-check-circle"></i>
     <h3>{{ num }}. {{{ q.question }}}</h3>
 
-    <textarea name="notes" placeholder="{{_ 'story.write_your_answer' }}"></textarea>
+    {{#switch q.questionType}}
+      {{#case "number"}}
+          <input type="number" name="number" min="1" max="5" placeholder="{{_ 'story.write_your_answer' }}">
+        {{/case}}
+        {{#case "radiobutton"}}
+        <!--Loop logic here-->
+          <input type="radio" name="radio" value="{{_ story.name }}"> {{ _story.name }}<br>
+        {{/case}}
+        {{#case "checkbox"}}
+        <!--Loop logic here-->
+          <input type="checkbox" name="checkbox" value="{{_ story.name}}"> {{_story.name }}<br>
+        {{/case}}
+        {{#case "select"}}
+        <select name="select">
+        <!--Loop logic-->
+          <option value="{{_ story.name }}">{{_ story.name }}</option>
+        </select>
+        {{/case}}
+        {{#case "textarea"}}
+          <textarea name="notes" placeholder="{{_ 'story.write_your_answer' }}"></textarea>
+        {{/case}}
+    {{/switch}}
+    <input type="number" name="number" min="1" max="5" placeholder="{{_ 'story.write_your_answer' }}">
+
+
   </script>
 
   <script id="story-view-template" type="text/x-handlebars-template">
@@ -471,7 +496,7 @@
       </section>
     </article>
   </script>
-  
+
   <script src="main.js"></script>
 
 </body>

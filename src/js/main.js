@@ -106,6 +106,19 @@ var ElectionSurveyTool = Backbone.Model.extend({
       return new Handlebars.SafeString(self.polyglot.t(text));
     });
 
+    Handlebars.registerHelper("switch", function(value, options) {
+      this._switch_value_ = value;
+      var html = options.fn(this);
+      delete this._switch_value_;
+      return html;
+    });
+
+    Handlebars.registerHelper("case", function(value, options) {
+      if (value == this._switch_value_) {
+        return options.fn(this);
+      }
+    });
+
     this.load();
 
     var save = _.debounce(_.bind(this.save, this), 300);

@@ -13,9 +13,9 @@ var UserInfoView = Backbone.View.extend({
   },
 
   initialize: function() {
-    this.storyid = PocketReporter.stories.at(PocketReporter.stories.length-1).id;
+    this.storyid = ElectionSurveyTool.stories.at(ElectionSurveyTool.stories.length-1).id;
 
-    this.model = PocketReporter.user;
+    this.model = ElectionSurveyTool.user;
     this.listenTo(this.model, 'change', this.checkOk);
 
     this.render();

@@ -21,16 +21,16 @@ var AddStoryView = Backbone.View.extend({
       this.model.set('topic', options.topic);
 
     } else if (options.category) {
-      this.model = PocketReporter.categoriesList.get(options.category);
+      this.model = ElectionSurveyTool.categoriesList.get(options.category);
 
     } else {
-      this.model = PocketReporter.categoriesList;
+      this.model = ElectionSurveyTool.categoriesList;
     }
-    
+
     this.render();
 
     this.listenTo(this.model, 'change', this.checkOk);
-    this.listenTo(PocketReporter.state, 'change:locale', this.render);
+    this.listenTo(ElectionSurveyTool.state, 'change:locale', this.render);
   },
 
   render: function() {
@@ -42,11 +42,11 @@ var AddStoryView = Backbone.View.extend({
     }
 
     function getActiveTopics(model) {
-      var activeTopics = _.map(model.get('topics'), function(id) { return PocketReporter.topics.get(id).toJSON(); });
+      var activeTopics = _.map(model.get('topics'), function(id) { return ElectionSurveyTool.topics.get(id).toJSON(); });
 
       activeTopics.forEach(function(item) {
         if (!item.custom) {
-          item.name = PocketReporter.polyglot.t('topics.' + item.id + '.name');
+          item.name = ElectionSurveyTool.polyglot.t('topics.' + item.id + '.name');
         }
       })
 
@@ -55,13 +55,13 @@ var AddStoryView = Backbone.View.extend({
 
     if (this.model instanceof CategoriesList) {
       props.categoriesList = this.model.toJSON();
-      
+
     } else if (this.model instanceof TopicsList) {
       props.custom = props.categoryId === 'custom';
       props.topicsList = getActiveTopics(this.model);
 
     } else if (this.model instanceof Story) {
-      var topics = PocketReporter.topics.toJSON();
+      var topics = ElectionSurveyTool.topics.toJSON();
       var topicName = this.model.get('topic');
       props.topic = _.find(topics, function(t) { return t.id == topicName; });
     }
@@ -77,8 +77,8 @@ var AddStoryView = Backbone.View.extend({
   },
 
   create: function(topic) {
-    this.model.set('id', PocketReporter.newStoryId());
-    PocketReporter.stories.add(this.model);
+    this.model.set('id', ElectionSurveyTool.newStoryId());
+    ElectionSurveyTool.stories.add(this.model);
 
     router.navigate('stories/' + this.model.id, {trigger: true});
   }

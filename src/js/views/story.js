@@ -18,8 +18,9 @@ var QuestionView = Backbone.View.extend({
     this.custom = this.question.custom;
     this.num = options.num;
     this.story = options.story;
+
     this.listenTo(this.model, 'change:notes', this.answerChanged);
-    this.listenTo(PocketReporter.state, 'change:locale', this.render);
+    this.listenTo(ElectionSurveyTool.state, 'change:locale', this.render);
   },
 
   answerChanged: function() {
@@ -31,7 +32,7 @@ var QuestionView = Backbone.View.extend({
   render: function() {
     var q = this.question;
     if (!this.custom) {
-      q.question = PocketReporter.polyglot.t('topics.' + this.story.get('topic') + '.questions.' + q.key);
+      q.question = ElectionSurveyTool.polyglot.t('topics.' + this.story.get('topic') + '.questions.' + q.key);
     }
 
     this.$el
@@ -66,11 +67,11 @@ var StoryView = Backbone.View.extend({
     'click #app-header h1': 'rename',
     'click .delete': 'deleteStory',
     'click .share': 'share',
-    'click .whatsapp': 'whatsapp'
+    'click .whatsapp': 'whatsapp' //Note: Riaan Snyders Nov 2018 - to become Firebase
   },
 
   initialize: function() {
-    this.topic = PocketReporter.topics.get(this.model.get('topic'));
+    this.topic = ElectionSurveyTool.topics.get(this.model.get('topic'));
 
     this.answers = this.model.get('answers');
     this.listenTo(this.answers, 'change', this.updateProgress);
@@ -93,7 +94,8 @@ var StoryView = Backbone.View.extend({
         num: i+1,
         model: model,
         question: q,
-        story: self.model
+        story: self.model,
+        type: self.questionType
       });
     });
 
@@ -112,15 +114,15 @@ var StoryView = Backbone.View.extend({
   deleteStory: function(e) {
     e.preventDefault();
 
-    if (confirm(PocketReporter.polyglot.t('story.confirm_delete'))) {
-      PocketReporter.stories.remove(this.model);
-      PocketReporter.trackEvent('story', 'delete');
+    if (confirm(ElectionSurveyTool.polyglot.t('story.confirm_delete'))) {
+      ElectionSurveyTool.stories.remove(this.model);
+      ElectionSurveyTool.trackEvent('story', 'delete');
       router.navigate('', {trigger: true});
     }
   },
 
   rename: function(e) {
-    var title = prompt(PocketReporter.polyglot.t('story.rename'), this.model.get('title'));
+    var title = prompt(ElectionSurveyTool.polyglot.t('story.rename'), this.model.get('title'));
 
     if (!_.isEmpty(title)) {
       this.model.set('title', title);
@@ -133,6 +135,7 @@ var StoryView = Backbone.View.extend({
     this.model.share();
   },
 
+  //Note: Riaan Snyders - To become Firebase
   whatsapp: function(e) {
     e.preventDefault();
     this.model.whatsapp();

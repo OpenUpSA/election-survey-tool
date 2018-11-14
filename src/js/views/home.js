@@ -12,8 +12,8 @@ var HomeView = Backbone.View.extend({
   initialize: function() {
     this.render();
 
-    this.listenTo(PocketReporter.stories, 'add remove', this.render);
-    this.listenTo(PocketReporter.state, 'change:locale', this.render);
+    this.listenTo(ElectionSurveyTool.stories, 'add remove', this.render);
+    this.listenTo(ElectionSurveyTool.state, 'change:locale', this.render);
   },
 
   add: function() {
@@ -24,31 +24,31 @@ var HomeView = Backbone.View.extend({
     e.preventDefault();
 
     var id = $(e.target).closest('.story-item').attr('data-id');
-    var story = PocketReporter.stories.get(id);
+    var story = ElectionSurveyTool.stories.get(id);
     story.share();
   },
 
   render: function() {
-    var topics = _.indexBy(PocketReporter.topics, 'id');
+    var topics = _.indexBy(ElectionSurveyTool.topics, 'id');
 
     function serialize(story) {
-      var topic = PocketReporter.topics.get(story.get('topic'));
+      var topic = ElectionSurveyTool.topics.get(story.get('topic'));
       var d = story.toJSON();
 
       d.percent_complete = story.percentComplete();
 
       if (topic && topic.get('custom')) {
-        d.topic_name = PocketReporter.topics.get(d.topic).get('name');
+        d.topic_name = ElectionSurveyTool.topics.get(d.topic).get('name');
       } else {
-        d.topic_name = topic ? PocketReporter.polyglot.t('topics.' + topic.id + '.name') : d.topic;
+        d.topic_name = topic ? ElectionSurveyTool.polyglot.t('topics.' + topic.id + '.name') : d.topic;
       }
-      
+
       return d;
     }
 
     this.$el.html(this.template({
-      empty: PocketReporter.stories.length === 0,
-      stories: PocketReporter.stories.map(serialize).reverse()
+      empty: ElectionSurveyTool.stories.length === 0,
+      stories: ElectionSurveyTool.stories.map(serialize).reverse()
     }));
 
     // progress bars

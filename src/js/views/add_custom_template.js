@@ -19,11 +19,11 @@ var AddCustomTemplate = Backbone.View.extend({
   getTemplateFromApi: function() {
     var self = this;
 
-    if (PocketReporter.topics.get(this.model.get('idSlug'))) {
+    if (ElectionSurveyTool.topics.get(this.model.get('idSlug'))) {
       return self.setState('exists')
     }
 
-    PocketReporter.addCustomTemplateFromApi(
+    ElectionSurveyTool.addCustomTemplateFromApi(
       [this.model.get('idSlug')],
       function(response) {
         if (response) {
