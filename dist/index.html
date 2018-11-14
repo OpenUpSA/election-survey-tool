@@ -172,31 +172,31 @@
     <i class="fa fa-check-circle"></i>
     <h3>{{ num }}. {{{ q.question }}}</h3>
 
-    {{#switch q.questionType}}
+    {{#switch q.answerType}}
       {{#case "number"}}
           <input type="number" name="number" min="1" max="5" placeholder="{{_ 'story.write_your_answer' }}">
         {{/case}}
         {{#case "radiobutton"}}
-        <!--Loop logic here-->
-          <input type="radio" name="radio" value="{{_ story.name }}"> {{ _story.name }}<br>
+          {{#each q.answerOptions}}
+            <input type="radio" name="radio" value="{{_ 'q.answerOptions' }}"> {{q.answerOptions }}<br>
+          {{/each}}
         {{/case}}
         {{#case "checkbox"}}
-        <!--Loop logic here-->
-          <input type="checkbox" name="checkbox" value="{{_ story.name}}"> {{_story.name }}<br>
+          {{#each q.answerOptions}}
+            <input type="checkbox" name="checkbox" value="{{_ 'q.answerOptions' }}"> {{ q.answerOptions }}<br>
+          {{/each}}
         {{/case}}
         {{#case "select"}}
         <select name="select">
-        <!--Loop logic-->
-          <option value="{{_ story.name }}">{{_ story.name }}</option>
+          {{#each q.answerOptions}}
+            <option value="{{_ 'q.answerOptions' }}">{{ q.answerOptions}}</option>
+          {{/each}}
         </select>
         {{/case}}
-        {{#case "textarea"}}
+        {{#case "default"}}
           <textarea name="notes" placeholder="{{_ 'story.write_your_answer' }}"></textarea>
         {{/case}}
     {{/switch}}
-    <input type="number" name="number" min="1" max="5" placeholder="{{_ 'story.write_your_answer' }}">
-
-
   </script>
 
   <script id="story-view-template" type="text/x-handlebars-template">

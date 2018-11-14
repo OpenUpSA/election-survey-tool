@@ -18,6 +18,8 @@ var QuestionView = Backbone.View.extend({
     this.custom = this.question.custom;
     this.num = options.num;
     this.story = options.story;
+    this.answerType = options.answerType,
+    this.answerOptions = options.answerOptions
 
     this.listenTo(this.model, 'change:notes', this.answerChanged);
     this.listenTo(ElectionSurveyTool.state, 'change:locale', this.render);
@@ -95,7 +97,8 @@ var StoryView = Backbone.View.extend({
         model: model,
         question: q,
         story: self.model,
-        type: self.questionType
+        type: self.answerType //Note: Riaan Snyders to be added to model
+        options: self.answerOptions //Note: Riaan Snyders to be added to model
       });
     });
 
