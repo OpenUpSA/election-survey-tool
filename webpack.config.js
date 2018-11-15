@@ -18,14 +18,13 @@ const entryObject = entryArray.reduce((acc, item) => {
 }, {});
 
 var config = {
-	apiKey: "AIzaSyDSLOG6UQL5CSUVpfSDfcFCl3nVrsUXe8c",
+	apiKey: "key",
 	authDomain: "election-tool-2019.firebaseapp.com",
 	databaseURL: "https://election-tool-2019.firebaseio.com",
 	projectId: "election-tool-2019",
 	storageBucket: "election-tool-2019.appspot.com",
-	messagingSenderId: "168702593827"
+	messagingSenderId: "id"
 };
-firebase.initializeApp(config);
 
 module.exports = {
   entry: entryObject,
