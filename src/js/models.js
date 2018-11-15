@@ -1,5 +1,5 @@
 /*** Models ***/
-// PocketReporter state
+// ElectionSurveyTool state
 var State = Backbone.Model.extend({
   defaults: {
     stories: [],
@@ -114,8 +114,8 @@ var Story = Backbone.Model.extend({
   completed: function() {
     return this.get('answers').filter(function(a) { return a.get('done'); });
   },
-  
-  whatsapp: function() {
+
+  firebase: function() {
     var pending = this.pending();
 
     if (pending.length > 0) {
@@ -123,11 +123,10 @@ var Story = Backbone.Model.extend({
         return;
     }
 
-    var url = 'https://api.whatsapp.com/send';
-    url += '?text=' + encodeURIComponent(this.shareableBody());
-
-    window.open(url, '_blank');
-
+    var itemKey = uuidv3();
+    firebase.database()ref('election-survey/' + itemKey).set({
+      data: encodeURIComponent(this.shareableBody())
+    });
   },
 
   share: function() {

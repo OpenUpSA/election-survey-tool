@@ -69,7 +69,7 @@ var StoryView = Backbone.View.extend({
     'click #app-header h1': 'rename',
     'click .delete': 'deleteStory',
     'click .share': 'share',
-    'click .whatsapp': 'whatsapp' //Note: Riaan Snyders Nov 2018 - to become Firebase
+    'click .firebase': 'firebase' 
   },
 
   initialize: function() {
@@ -139,9 +139,9 @@ var StoryView = Backbone.View.extend({
   },
 
   //Note: Riaan Snyders - To become Firebase
-  whatsapp: function(e) {
+  firebase: function(e) {
     e.preventDefault();
-    this.model.whatsapp();
+    this.model.firebase();
   },
 
   render: function() {

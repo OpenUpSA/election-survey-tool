@@ -1,8 +1,15 @@
+const firebase = require("firebase");
+const firebaseApp = require("firebase/app");
+const firebaseAuth = require("firebase/auth");
+const firebaseDB = require("firebase/database");
+const firebaseFunctions = require("firebase/functions");
+
 const path = require('path');
 const webpack = require('webpack');
 const glob = require('glob');
 const {GenerateSW} = require('workbox-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const uuidv3 = require('uuid/v3');
 
 const entryArray = glob.sync('./src/**/*.js|.css');
 const entryObject = entryArray.reduce((acc, item) => {
@@ -10,6 +17,16 @@ const entryObject = entryArray.reduce((acc, item) => {
   acc[name] = item;
   return acc;
 }, {});
+
+var config = {
+	apiKey: "AIzaSyDSLOG6UQL5CSUVpfSDfcFCl3nVrsUXe8c",
+	authDomain: "election-tool-2019.firebaseapp.com",
+	databaseURL: "https://election-tool-2019.firebaseio.com",
+	projectId: "election-tool-2019",
+	storageBucket: "election-tool-2019.appspot.com",
+	messagingSenderId: "168702593827"
+};
+firebase.initializeApp(config);
 
 module.exports = {
   entry: entryObject,
