@@ -2,14 +2,13 @@ const firebase = require("firebase");
 const firebaseApp = require("firebase/app");
 const firebaseAuth = require("firebase/auth");
 const firebaseDB = require("firebase/database");
-const firebaseFunctions = require("firebase/functions");
 
 const path = require('path');
 const webpack = require('webpack');
 const glob = require('glob');
 const {GenerateSW} = require('workbox-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const uuidv3 = require('uuid/v3');
+const uuidv1 = require('uuid/v1');
 
 const entryArray = glob.sync('./src/**/*.js|.css');
 const entryObject = entryArray.reduce((acc, item) => {

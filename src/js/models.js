@@ -123,8 +123,9 @@ var Story = Backbone.Model.extend({
         return;
     }
 
-    var itemKey = uuidv3();
-    firebase.database()ref('election-survey/' + itemKey).set({
+    var itemKey = uuidv1();
+    
+    firebase.database().ref('election-survey/' + itemKey).set({
       data: encodeURIComponent(this.shareableBody())
     });
   },
