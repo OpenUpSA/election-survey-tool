@@ -124,9 +124,32 @@ var Story = Backbone.Model.extend({
     }
 
     var itemKey = uuidv1();
-    
-    firebase.database().ref('election-survey/' + itemKey).set({
-      data: encodeURIComponent(this.shareableBody())
+
+    //Auth
+    firebase.auth().signInWithEmailAndPassword('riaan@elevato.co.za', 'r1aansnyders').then(function() {
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            //Submit
+            firebase.database().ref('election-survey/' + itemKey).set({
+              data: encodeURIComponent(this.shareableBody())
+            }).catch(function(error) {
+              console.log(error);
+            });
+        } else {
+           //User not signed in. We throw error
+           throw('Firebase authentication failed!');
+        }
+      });
+
+    }).catch(function(error) {
+      throw(error);
+    });
+
+    //Signout
+    firebase.auth().signOut().then(function() {
+        // Sign-out successful.
+      }).catch(function(error) {
+      throw(error);
     });
   },
 
