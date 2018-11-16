@@ -21,7 +21,7 @@ function test_submitData(){
 	var itemKey = uuidv1();
 
 	//Auth
-	firebase.auth().signInWithEmailAndPassword('riaan@elevato.co.za', 'r1aansnyders').then(function() {
+	firebase.auth().signInWithEmailAndPassword('tobechanged', 'tobechanged').then(function() {
 		firebase.auth().onAuthStateChanged(function(user) {
 		  if (user) {
 		     var user = firebase.auth().currentUser;
@@ -46,11 +46,6 @@ function test_submitData(){
 	  var errorMessage = error.message;
 	  // ...
 	});
-
-
-
-
-
 
   //Signout
 	firebase.auth().signOut().then(function() {
