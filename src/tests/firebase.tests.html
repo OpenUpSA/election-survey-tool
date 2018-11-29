@@ -1,0 +1,77 @@
+<html>
+<head>
+
+</head>
+<body>
+	<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
+
+	<!-- Firebase App is always required and must be first -->
+<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase-app.js"></script>
+
+<!-- Add additional services that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase-functions.js"></script>
+
+<script>
+var config = {
+		apiKey: "AIzaSyDSLOG6UQL5CSUVpfSDfcFCl3nVrsUXe8c",
+		authDomain: "election-tool-2019.firebaseapp.com",
+		databaseURL: "https://election-tool-2019.firebaseio.com",
+		projectId: "election-tool-2019",
+		storageBucket: "election-tool-2019.appspot.com",
+		messagingSenderId: "168702593827"
+};
+firebase.initializeApp(config);
+console.log('firebase init');
+</script>
+<script>
+function test_FBLogin(){
+	var provider = new firebase.auth.FacebookAuthProvider();
+
+ console.log('FB init');
+
+	firebase.auth().signInWithPopup(provider).then(function(result) {
+
+	console.log('FB Logged in');
+  // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+  var token = result.credential.accessToken;
+  // The signed-in user info.
+  var user = result.user;
+
+	console.log(user.uid);
+
+	firebase.auth().onAuthStateChanged(function(user) {
+		if (user) {
+				console.log(user.uid);
+
+				//Submit
+				firebase.database().ref('election-survey/' + user.uid).set({
+					data: encodeURIComponent('{ "test": "test data ","user:"' + user.email + '"}')
+				}).catch(function(error) {
+					console.log(error);
+				});
+
+		} else {
+			console.log('not signed in');
+		}
+	});
+  // ...
+}).catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  // The email of the user's account used.
+  var email = error.email;
+  // The firebase.auth.AuthCredential type that was used.
+  var credential = error.credential;
+
+	console.log('FB ERROR ' + errorMessage);
+  // ...
+});
+}
+
+test_FBLogin();
+</script>
+</body>
+</html>

@@ -55,7 +55,55 @@ function test_submitData(){
 	});
 }
 
-test( 'submit data', function (assert) {
-	var result = test_submitData()
+function test_FBLogin(){
+	var provider = new firebase.auth.FacebookAuthProvider();
+
+	firebase.auth().signInWithPopup(provider).then(function(result) {
+  // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+  var token = result.credential.accessToken;
+  // The signed-in user info.
+  var user = result.user;
+
+	console.log(user.uid);
+
+	firebase.auth().onAuthStateChanged(function(user) {
+		if (user) {
+			 var user = firebase.auth().currentUser;
+
+				console.log(user.uid);
+
+				//Submit
+				firebase.database().ref('election-survey/' + user.uid).set({
+					data: encodeURIComponent('{ "test": "test data "}')
+				}).catch(function(error) {
+					console.log(error);
+				});
+
+		} else {
+			console.log('not signed in');
+		}
+	});
+  // ...
+}).catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  // The email of the user's account used.
+  var email = error.email;
+  // The firebase.auth.AuthCredential type that was used.
+  var credential = error.credential;
+
+	console.log(errorMessage);
+  // ...
+});
+}
+
+test( 'FB Login', function (assert) {
+	var result = test_FBLogin()
 	assert.end()
 });
+
+/*test( 'submit data', function (assert) {
+	var result = test_submitData()
+	assert.end()
+});*/
