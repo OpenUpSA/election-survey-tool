@@ -7,7 +7,7 @@ const firebaseDB = require("firebase/database");
 const uuidv1 = require('uuid/v1');
 
 var config = {
-    apiKey: "AIzaSyDSLOG6UQL5CSUVpfSDfcFCl3nVrsUXe8c",
+    apiKey: "U2FsdGVkX19qso7ZVBc9WDhCQu1rAwLkncXMB87Pe8Inbx0cAS2hgaCFoMCGkJOCKuktzZ9d+0Nt9My2HFICEQ==",
     authDomain: "election-tool-2019.firebaseapp.com",
     databaseURL: "https://election-tool-2019.firebaseio.com",
     projectId: "election-tool-2019",
@@ -15,7 +15,6 @@ var config = {
     messagingSenderId: "168702593827"
 };
 firebase.initializeApp(config);
-
 
 function test_submitData(){
 	var itemKey = uuidv1();

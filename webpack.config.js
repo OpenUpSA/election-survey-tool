@@ -3,6 +3,9 @@ const firebaseApp = require("firebase/app");
 const firebaseAuth = require("firebase/auth");
 const firebaseDB = require("firebase/database");
 
+const cryptoJS = require("crypto-js");
+const aes = require("crypto-js/aes");
+
 const path = require('path');
 const webpack = require('webpack');
 const glob = require('glob');
@@ -17,13 +20,16 @@ const entryObject = entryArray.reduce((acc, item) => {
   return acc;
 }, {});
 
+var cryptoval = cryptoJS.AES.decrypt('U2FsdGVkX19qso7ZVBc9WDhCQu1rAwLkncXMB87Pe8Inbx0cAS2hgaCFoMCGkJOCKuktzZ9d+0Nt9My2HFICEQ==', '64b0f400-f8a9-11e8-ba8f-6f4534024543'),
+var val = cryptoval.toString(cryptoJS.enc.Utf8);
+
 var config = {
-	apiKey: "key",
+	apiKey: val,
 	authDomain: "election-tool-2019.firebaseapp.com",
 	databaseURL: "https://election-tool-2019.firebaseio.com",
 	projectId: "election-tool-2019",
 	storageBucket: "election-tool-2019.appspot.com",
-	messagingSenderId: "id"
+	messagingSenderId: "168702593827"
 };
 
 module.exports = {
