@@ -29,10 +29,45 @@ const questionAPI = 'https://custom.pocketreporter.co.za/wp-json/wp/v2/election_
 function test_GetAndTransformFolders(){
 
   var json = controller.dataObject('folders');
-	transformer.xFormFolders(json);
+	return transformer.xFormFolders(json);
+}
+
+function test_GetAndTransformContent(){
+
+  var json = controller.dataObject('contents');
+	return transformer.xFormContent(json);
+}
+
+function test_GetAndTransformQuestions(){
+
+  var json = controller.dataObject('questions');
+	return transformer.xFormQuestions(json);
+}
+
+function test_MapToSurvey(){
+ var folders = test_GetAndTransformFolders();
+ var contents = test_GetAndTransformContent();
+ var questions = test_GetAndTransformQuestions();
+
+ transformer.mapToSurvey(folders,contents,questions);
 }
 
 test( 'Get Folders', function (assert) {
 	test_GetAndTransformFolders();
+	assert.end()
+});
+
+test( 'Get Content', function (assert) {
+	test_GetAndTransformContent();
+	assert.end()
+});
+
+test( 'Get Questions', function (assert) {
+	test_GetAndTransformQuestions();
+	assert.end()
+});
+
+test( 'Map to Survey', function (assert) {
+	test_MapToSurvey();
 	assert.end()
 });
