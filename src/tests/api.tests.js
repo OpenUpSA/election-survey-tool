@@ -22,10 +22,6 @@ mock.reRequire('jquery');
 // This maps the dynamic .ajax method into Backbone:
 //Backbone.$.ajax = $.ajax;
 
-const foldersAPI = 'https://custom.pocketreporter.co.za/wp-json/wp/v2/election_folders';
-const resourceAPI = 'https://custom.pocketreporter.co.za/wp-json/wp/v2/election_information';
-const questionAPI = 'https://custom.pocketreporter.co.za/wp-json/wp/v2/election_questions/';
-
 function test_GetAndTransformFolders(){
 
   var json = controller.dataObject('folders');

@@ -13,6 +13,9 @@ var AddStoryView = Backbone.View.extend({
   },
 
   initialize: function(options) {
+    var surveys = sessionStorage.getItem('surveys');
+    surveys = JSON.parse(surveys);
+    
     this.categoryId = options.category;
     this.topic = options.topic;
 

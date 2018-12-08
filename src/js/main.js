@@ -1,13 +1,3 @@
-/*** Initialize Firebase ***/
-  var config = {
-    apiKey: "AIzaSyDSLOG6UQL5CSUVpfSDfcFCl3nVrsUXe8c",
-    authDomain: "election-tool-2019.firebaseapp.com",
-    databaseURL: "https://election-tool-2019.firebaseio.com",
-    projectId: "election-tool-2019",
-    storageBucket: "election-tool-2019.appspot.com",
-    messagingSenderId: "168702593827"
-  };
-  firebase.initializeApp(config);
 
 /*** Router ***/
 var Router = Backbone.Router.extend({
@@ -152,7 +142,7 @@ var ElectionSurveyTool = Backbone.Model.extend({
     var val;
 
     if (this.storage) {
-      val = this.storage.getItem('PocketReporter');
+      val = this.storage.getItem('ElectionSurveyTool');
 
       if (val) {
         val = JSON.parse(val);
@@ -160,6 +150,18 @@ var ElectionSurveyTool = Backbone.Model.extend({
         if (val.version != this.version) val = null;
       }
     }
+
+    //Pre-load data
+    var json = controller.dataObject('folders');
+    var folders = transformer.xFormFolders(json);
+
+    json = controller.dataObject('contents');
+    var contents = transformer.xFormFolders(json);
+
+    json = controller.dataObject('questions');
+    var questions = transformer.xFormQuestions(json);
+
+    transformer.mapToSurvey(folders,contents,questions);
 
     if (!val) val = {};
 
@@ -198,7 +200,6 @@ var ElectionSurveyTool = Backbone.Model.extend({
     this.topics.add(this.customTopics.models);
   },
 
-  //Note: Riaan Snyders Nov 2018: Calls for WP questions / templates
   addCustomTemplateFromApi: function(idArray, callback) {
     var remaingRequest = idArray.length;
 
