@@ -36,49 +36,45 @@ const config = {
 };
 
 module.exports = {
-  entry: entryObject,
+  mode: 'development',
+  entry: './src/js/main.js',
   output: {
-    filename: 'main.js',
-    path: path.resolve(__dirname, 'dist')
+   path: path.resolve(__dirname, 'dist'),
+   filename: 'main.js'
   },
 	module: {
-   preLoaders: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'jshint-loader'
-
-      }
-   ],
-	 loaders: [
-       {
-         test: /\.jsx?$/,
-         loader: 'babel-loader'
-       },
-       {
-         test: /\.s?css$/,
-         loaders: ['style', 'css', 'sass', 'postcss-loader']
-       },
- ]
- /*plugins: [
-	 new GenerateSW({
-		 importWorkboxFrom: 'local'
-	 })
-	 new webpack.optimize.UglifyJsPlugin({
-		 compress: {
-			 warnings: false,
-			 drop_console: false,
-		 }
-	 })
- ]*/
- /*resolve: {
-   extensions: ['', '.js']
- },
- jshint: {
-        camelcase: true,
-        emitErrors: true,
-        failOnHint: true,
-				curly: true
-   }*/
- }
-}
+    rules: [
+     {
+       test: /\.js$/,
+       use:[
+         {  exclude: /node_modules/ },
+         { loader: 'jshint-loader' }
+       ],
+       test: /\.jsx?$/,
+       use: [
+         { loader: 'babel-loader'}
+       ],
+       test: /\.s?css$/,
+       use:[
+         { loader: 'style'},
+         { loader: 'css'},
+         { loader: 'sass'},
+         { loader : 'postcss-loader' }
+       ]
+     }
+   ]
+},
+plugins: [
+   new UglifyJsPlugin({
+     cache: true,
+     parallel: true,
+     sourceMap: true
+  }),
+  new GenerateSW({
+    importWorkboxFrom: 'local'
+   })
+ ],
+  resolve: {
+    extensions: ['.js', '.css', '.scss']
+  }
+};
