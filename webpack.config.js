@@ -1,3 +1,4 @@
+const Backbone = require("backbone");
 const firebase = require("firebase");
 const firebaseApp = require("firebase/app");
 const firebaseAuth = require("firebase/auth");
@@ -13,10 +14,18 @@ const {GenerateSW} = require('workbox-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const uuidv1 = require('uuid/v1');
 
+const  CopyWebpackPlugin = require('copy-webpack-plugin');
+const fs = require('fs-extra');
+
 const controller = require('./src/js/controller.min.js');
 const transformer = require('./src/js/transformation.min.js');
 
-const entryArray = glob.sync('./src/**/*.js|.css');
+//Author: RiaanSnyders
+//Date: 10 December 2018
+//Note: HACK to copy static files as Webpack-Copyfile-plugins
+//fs.copySync(path.resolve(__dirname,'src/css/'), 'dist/css/');
+
+const entryArray = glob.sync('./src/**/*.js');
 const entryObject = entryArray.reduce((acc, item) => {
   const name = item.replace('/index.js', '');
   acc[name] = item;
@@ -45,6 +54,10 @@ module.exports = {
 	module: {
     rules: [
      {
+       test: /backbone\.js$/,
+       use:[
+         { loader: 'imports?define=>false' }
+       ],
        test: /\.js$/,
        use:[
          {  exclude: /node_modules/ },
@@ -72,9 +85,19 @@ plugins: [
   }),
   new GenerateSW({
     importWorkboxFrom: 'local'
-   })
+  }),
+  new CopyWebpackPlugin([
+            {
+              from: './src/css',
+              to: 'css',
+              force: 'true'
+          }
+        ])
  ],
   resolve: {
     extensions: ['.js', '.css', '.scss']
-  }
+  },
+  node: {
+   fs: "empty"
+ }
 };
