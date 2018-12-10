@@ -1,4 +1,3 @@
-const Backbone = require("backbone");
 const firebase = require("firebase");
 const firebaseApp = require("firebase/app");
 const firebaseAuth = require("firebase/auth");
@@ -52,6 +51,11 @@ module.exports = {
        use:[
          { loader: 'imports?define=>false' }
        ],
+       //test: /handlebars$\.js$/,
+       test: /\.hbs$/,
+       use:[
+         { loader: '@icetee/handlebars-loader' }
+       ],
        test: /\.js$/,
        use:[
          {  exclude: /node_modules/ },
@@ -72,10 +76,6 @@ module.exports = {
    ]
 },
 plugins: [
-   new webpack.optimize.CommonsChunkPlugin({
-       name: 'vendor',
-       filename: 'vendor.bundle.js'
-   }),
    /*new UglifyJsPlugin({
      cache: true,
      parallel: true,
@@ -97,7 +97,8 @@ plugins: [
             _ : "underscore",
             Handlebars: "handlebars",
             join: ['lodash', 'join']
-        })
+        }),
+        new webpack.IgnorePlugin(/\.\/locale$/)
  ],
   resolve: {
     extensions: ['.js', '.css', '.scss']
