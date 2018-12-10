@@ -57,8 +57,26 @@ var RequestForTemplate = Backbone.Model.extend({
       notExist: false,
     }
   }
-})
+});
 
+var Stories = Backbone.Collection.extend({
+  model: Story,
+  comparator: 'updated_at',
+  localStorage: new Backbone.LocalStorage('stories')
+});
+
+/* answers are a simple model, with attributes for each question key, such as
+ * q-name-notes: notes for the "name" question
+ */
+var Answer = Backbone.Model.extend({
+  idAttribute: 'key',
+  defaults: {
+    done: false
+  }
+});
+var AnswerList = Backbone.Collection.extend({
+  model: Answer
+});
 
 var Story = Backbone.Model.extend({
   defaults: function() {
@@ -125,7 +143,7 @@ var Story = Backbone.Model.extend({
 
     var provider = new firebase.auth.FacebookAuthProvider();
 
-   console.log('FB init');
+    console.log('FB init');
 
   	firebase.auth().signInWithPopup(provider).then(function(result) {
 
@@ -162,14 +180,12 @@ var Story = Backbone.Model.extend({
 
   	 throw(error);
     });
-   }
   },
-
   share: function() {
     var pending = this.pending();
 
     if (pending.length > 0) {
-      if (!confirm(ElectionSurveyTool.polyglot.t('story.share_incomplete')))
+      if (!confirm(ElectionSurveyTool.polyglot.t('story.share_incomplete'))) {
         return;
     }
 
@@ -182,23 +198,5 @@ var Story = Backbone.Model.extend({
 
     ElectionSurveyTool.trackEvent('story', 'share');
   }
-});
-
-var Stories = Backbone.Collection.extend({
-  model: Story,
-  comparator: 'updated_at',
-  localStorage: new Backbone.LocalStorage('stories')
-});
-
-/* answers are a simple model, with attributes for each question key, such as
- * q-name-notes: notes for the "name" question
- */
-var Answer = Backbone.Model.extend({
-  idAttribute: 'key',
-  defaults: {
-    done: false
-  }
-});
-var AnswerList = Backbone.Collection.extend({
-  model: Answer
+ }
 });

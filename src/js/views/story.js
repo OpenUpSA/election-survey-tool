@@ -69,7 +69,7 @@ var StoryView = Backbone.View.extend({
     'click #app-header h1': 'rename',
     'click .delete': 'deleteStory',
     'click .share': 'share',
-    'click .firebase': 'firebase' 
+    'click .firebase': 'firebase'
   },
 
   initialize: function() {
@@ -97,7 +97,7 @@ var StoryView = Backbone.View.extend({
         model: model,
         question: q,
         story: self.model,
-        type: self.answerType //Note: Riaan Snyders to be added to model
+        type: self.answerType, //Note: Riaan Snyders to be added to model
         options: self.answerOptions //Note: Riaan Snyders to be added to model
       });
     });

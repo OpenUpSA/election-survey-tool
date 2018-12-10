@@ -15,17 +15,11 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const uuidv1 = require('uuid/v1');
 
 const  CopyWebpackPlugin = require('copy-webpack-plugin');
-const fs = require('fs-extra');
 
 const controller = require('./src/js/controller.min.js');
 const transformer = require('./src/js/transformation.min.js');
 
-//Author: RiaanSnyders
-//Date: 10 December 2018
-//Note: HACK to copy static files as Webpack-Copyfile-plugins
-//fs.copySync(path.resolve(__dirname,'src/css/'), 'dist/css/');
-
-const entryArray = glob.sync('./src/**/*.js');
+const entryArray = glob.sync('./src/js/**/*.js');
 const entryObject = entryArray.reduce((acc, item) => {
   const name = item.replace('/index.js', '');
   acc[name] = item;
@@ -46,7 +40,7 @@ const config = {
 
 module.exports = {
   mode: 'development',
-  entry: './src/js/main.js',
+  entry: entryArray,
   output: {
    path: path.resolve(__dirname, 'dist'),
    filename: 'main.js'
@@ -78,11 +72,15 @@ module.exports = {
    ]
 },
 plugins: [
-   new UglifyJsPlugin({
+   new webpack.optimize.CommonsChunkPlugin({
+       name: 'vendor',
+       filename: 'vendor.bundle.js'
+   }),
+   /*new UglifyJsPlugin({
      cache: true,
      parallel: true,
      sourceMap: true
-  }),
+  }),*/
   new GenerateSW({
     importWorkboxFrom: 'local'
   }),
@@ -92,7 +90,14 @@ plugins: [
               to: 'css',
               force: 'true'
           }
-        ])
+        ]),
+        new webpack.ProvidePlugin({
+            $ : "jquery",
+            Backbone : "backbone",
+            _ : "underscore",
+            Handlebars: "handlebars",
+            join: ['lodash', 'join']
+        })
  ],
   resolve: {
     extensions: ['.js', '.css', '.scss']

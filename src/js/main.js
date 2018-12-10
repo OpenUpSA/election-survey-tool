@@ -87,7 +87,7 @@ var ElectionSurveyTool = Backbone.Model.extend({
 
     // storage version
     // NB: changing this will clear all stories when a user next loads the app!
-    this.version = 5;
+    this.version = 2;
 
     if ('localStorage' in window) {
       this.storage = localStorage;
